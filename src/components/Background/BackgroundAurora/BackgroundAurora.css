@@ -1,0 +1,86 @@
+.full-size-aurora-container {
+  width: 240px;
+  height: 60px;
+
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.full-size-aurora-container::before {
+  content: "";
+  position: absolute;
+  inset: -50% 0%;
+
+  --stripe-color: #1a1a1a;
+  --stripes: repeating-linear-gradient(
+    120deg,
+    var(--stripe-color) 0%,
+    var(--stripe-color) 8%,
+    transparent 15%,
+    var(--stripe-color) 24%,
+    var(--stripe-color) 29%,
+    transparent 38%,
+    var(--stripe-color) 44%,
+    var(--stripe-color) 50%
+  );
+
+  --aurora: repeating-linear-gradient(
+    120deg,
+    #60a5fa 10%,
+    #e879f9 15%,
+    #60a5fa 20%,
+    #5eead4 25%,
+    #49a482 30%,
+    #60a5fa 40%
+  );
+
+  background-image: var(--stripes), var(--aurora);
+  background-size: 300%, 200%;
+  filter: blur(16px) saturate(160%);
+
+  animation: smoothBg 36s linear infinite, fadePulse 10s ease-in-out infinite, maskSwitch 20s linear infinite;
+  pointer-events: none;
+  border-radius: inherit;
+
+  mask-image: radial-gradient(ellipse at 0% 120%, black 40%, transparent 70%);
+}
+
+@keyframes smoothBg {
+  0% {
+    background-position: 50% 50%, 50% 50%;
+  }
+  100% {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+@keyframes maskSwitch {
+  0% {
+    mask-image: radial-gradient(ellipse at 120% 0%, black 40%, transparent 70%);
+  }
+  100% {
+    mask-image: radial-gradient(ellipse at 0% 120%, black 40%, transparent 70%);
+  }
+}
+
+
+@keyframes fadePulse {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}

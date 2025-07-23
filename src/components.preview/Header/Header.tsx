@@ -12,7 +12,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="sticky left-0 top-0 bg-secondary w-full backdrop-blur-sm z-50">
+    <header className="sticky left-0 top-0 bg-header w-full backdrop-blur-sm z-50 h-16">
       <Link to="/">
         <div className="absolute left-8 top-1/2 transform -translate-y-1/2 cursor-pointer">
           <img
@@ -22,7 +22,7 @@ const Header = () => {
           />
         </div>
       </Link>
-      <nav className="flex text-primary text-xl max-w-[1400px] mx-auto">
+      <nav className="flex items-center text-primary text-xl max-w-[1400px] mx-auto h-full">
         {NAV_LINKS.map(({ name, href }) => {
           const isActive = location.pathname === href;
           const activeClass = isActive ? "text-white" : "text-gray";
@@ -31,7 +31,7 @@ const Header = () => {
             <Link
               key={name}
               to={href}
-              className={`text-primary py-3 px-6 hover:text-white transition-colors ${activeClass}`}
+              className={`text-primary py-3 px-6 hover:text-white transition-colors hover:bg-white/5 rounded-lg ${activeClass}`}
             >
               {name}
             </Link>

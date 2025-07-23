@@ -67,7 +67,7 @@ const PaletteBuilder = ({ storePalettes }: Props) => {
                     setColorGradient("#000");
                   }
                 }}
-                className="w-full mx-2 mb-2 bg-[#24242424] text-white px-2 py-1 rounded-md border-2 border-white focus:outline-none font-medium text-sm"
+                className="w-full mx-2 mb-2 bg-[#24242424] text-white px-2 py-1 rounded-md focus:outline-none font-medium text-sm shadow-md"
                 placeholder="#RRGGBB"
               />
             </div>

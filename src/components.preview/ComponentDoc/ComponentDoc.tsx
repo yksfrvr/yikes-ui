@@ -9,7 +9,7 @@ const ComponentDoc = ({ docs }: Props) => {
     <div className="my-8">
       {docs.map((section, idx) => (
         <div key={idx} className="mb-4">
-          <h3 className="text-xl font-semibold mb-2">{section.heading}</h3>
+          <h3 className="text-2xl font-semibold mb-2">{section.heading}</h3>
           <ul className="list-disc pl-5">
             {section.points.map((point, idx) => (
               <li key={idx} className="mb-1">

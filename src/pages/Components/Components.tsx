@@ -25,6 +25,11 @@ const SECTION_COMPONENTS: Section[] = [
     name: "Aura",
     component: <PreviewComponents.AuraPreview />,
   },
+  // {
+  //   id: "aurora-bg",
+  //   name: "Aurora background",
+  //   component: <PreviewComponents.AuroraBgPreview />,
+  // },
   {
     id: "border",
     name: "Border",
@@ -45,11 +50,11 @@ const SECTION_COMPONENTS: Section[] = [
     name: "Image hover",
     component: <PreviewComponents.ImageHoverPreview />,
   },
-  // {
-  //   id: "particles-bg",
-  //   name: "Particles",
-  //   component: <PreviewComponents.ParticlesPreview />,
-  // },
+  {
+    id: "bg-aurora",
+    name: "Background aurora",
+    component: <PreviewComponents.BackgroundAuroraPreview />,
+  },
   {
     id: "signal-line",
     name: "Signal line",
