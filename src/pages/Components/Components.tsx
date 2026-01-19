@@ -10,6 +10,11 @@ type Section = {
 };
 
 const SECTION_COMPONENTS: Section[] = [
+  // {
+  //   id: "scroll",
+  //   name: "Scroll",
+  //   component: <PreviewComponents.ScrollPreview />,
+  // },
   {
     id: "ambient",
     name: "Ambient",
@@ -55,11 +60,11 @@ const SECTION_COMPONENTS: Section[] = [
     name: "Background aurora",
     component: <PreviewComponents.BackgroundAuroraPreview />,
   },
-  {
-    id: "signal-line",
-    name: "Signal line",
-    component: <PreviewComponents.SignalLinePreview />,
-  },
+  // {
+  //   id: "signal-line",
+  //   name: "Signal line",
+  //   component: <PreviewComponents.SignalLinePreview />,
+  // },
   {
     id: "tooltip",
     name: "Tooltip",
