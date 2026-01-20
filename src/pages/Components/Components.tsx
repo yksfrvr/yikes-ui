@@ -10,11 +10,11 @@ type Section = {
 };
 
 const SECTION_COMPONENTS: Section[] = [
-  // {
-  //   id: "scroll",
-  //   name: "Scroll",
-  //   component: <PreviewComponents.ScrollPreview />,
-  // },
+  {
+    id: "scroll",
+    name: "Scroll",
+    component: <PreviewComponents.ScrollPreview />,
+  },
   {
     id: "ambient",
     name: "Ambient",

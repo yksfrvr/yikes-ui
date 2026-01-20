@@ -1,9 +1,9 @@
 import React, { CSSProperties } from 'react';
 import BaseScroll from '../Base/Base';
-import './Rainbow.css';
+import './Glass.css';
 import { RenderThumb, RenderTrack } from '../types';
 
-interface RainbowScrollProps {
+interface GlassScrollProps {
   children: React.ReactNode;
   thumbWidth?: string;
   thumbRadius?: string;
@@ -13,7 +13,7 @@ interface RainbowScrollProps {
   style?: CSSProperties;
 }
 
-const RainbowScroll: React.FC<RainbowScrollProps> = ({
+const GlassScroll: React.FC<GlassScrollProps> = ({
   children,
   thumbWidth = '8px',
   thumbRadius = '4px',
@@ -29,7 +29,9 @@ const RainbowScroll: React.FC<RainbowScrollProps> = ({
       style={{
         height: thumbHeight,
         transform: `translateY(${thumbTop})`,
-        background: 'linear-gradient(45deg, #fd9090cc, #fff962cc, #9bf993cc, #80daf5cc, #bb90facc)',
+        background: 'rgba(255, 255, 255, 0.2)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
       }}
       onMouseDown={handleThumbMouseDown}
     />
@@ -65,4 +67,4 @@ const RainbowScroll: React.FC<RainbowScrollProps> = ({
   );
 };
 
-export default RainbowScroll;
+export default GlassScroll;
