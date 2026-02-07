@@ -10,4 +10,7 @@ export type RenderTrack = (props: {
     children: React.ReactNode;
     thumbHeight: string;
     showScrollbar: boolean;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }) => React.ReactNode;

@@ -35,17 +35,20 @@ const RainbowScroll: React.FC<RainbowScrollProps> = ({
     />
   );
 
-  const renderTrack: RenderTrack = ({ trackRef, children: thumb, thumbHeight, showScrollbar }) => (
+  const renderTrack: RenderTrack = ({ trackRef, children: thumb, thumbHeight, showScrollbar, onMouseEnter, onMouseLeave, onClick }) => (
     <div
       ref={trackRef}
       className="custom-scrollbar-track"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
       style={{
         opacity: showScrollbar && thumbHeight !== '0px' ? 1 : 0,
       }}
     >
       {thumb}
     </div>
-  );
+);
 
   return (
     <BaseScroll

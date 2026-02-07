@@ -25,7 +25,7 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   renderThumb,
   renderTrack,
   autoHide = true,
-  autoHideDelay = 200,
+  autoHideDelay = 250,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
@@ -35,6 +35,7 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   const [thumbTop, setThumbTop] = useState('0px');
   const [isDragging, setIsDragging] = useState(false);
   const [isScrollbarVisible, setIsScrollbarVisible] = useState(!autoHide);
+  const [isTrackHovered, setIsTrackHovered] = useState(false);
   const startY = useRef(0);
   const startThumbTop = useRef(0);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -49,11 +50,31 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
     }
 
     hideTimeoutRef.current = setTimeout(() => {
-      if (!isDragging) {
+      if (!isDragging && !isTrackHovered) {
         setIsScrollbarVisible(false);
       }
     }, autoHideDelay);
-  }, [autoHide, autoHideDelay, isDragging]);
+  }, [autoHide, autoHideDelay, isDragging, isTrackHovered]);
+
+  const handleTrackMouseEnter = useCallback(() => {
+    setIsTrackHovered(true);
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+    setIsScrollbarVisible(true);
+  }, []);
+
+  const handleTrackMouseLeave = useCallback(() => {
+    setIsTrackHovered(false);
+    if (autoHide && !isDragging) {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+      hideTimeoutRef.current = setTimeout(() => {
+        setIsScrollbarVisible(false);
+      }, autoHideDelay);
+    }
+  }, [autoHide, isDragging, autoHideDelay]);
 
   const updateScrollbar = useCallback(() => {
     const content = contentRef.current;
@@ -85,6 +106,36 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
       onScroll?.(e);
     },
     [onScroll, updateScrollbar, showScrollbarTemporarily]
+  );
+
+  const handleTrackClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      // Ignore if the click was on the thumb itself
+      if (!contentRef.current || !trackRef.current || !thumbRef.current) return;
+      if (thumbRef.current.contains(e.target as Node)) return;
+
+      const track = trackRef.current;
+      const content = contentRef.current;
+      const thumb = thumbRef.current;
+
+      const trackRect = track.getBoundingClientRect();
+      const clickY = e.clientY - trackRect.top;
+
+      const contentHeight = content.scrollHeight;
+      const visibleHeight = content.clientHeight;
+      const scrollTrackHeight = track.clientHeight;
+      const currentThumbHeight = thumb.clientHeight;
+      const maxThumbTravel = scrollTrackHeight - currentThumbHeight;
+
+      // Position thumb so cursor is at its center
+      const newThumbTop = Math.min(Math.max(0, clickY - currentThumbHeight / 2), maxThumbTravel);
+
+      const scrollRatio = (contentHeight - visibleHeight) / maxThumbTravel;
+      content.scrollTop = newThumbTop * scrollRatio;
+
+      setThumbTop(`${newThumbTop}px`);
+    },
+    []
   );
 
   const handleThumbMouseDown = useCallback(
@@ -165,7 +216,7 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
     };
   }, []);
 
-  const effectiveShowScrollbar = showScrollbar && (!autoHide || isScrollbarVisible);
+  const effectiveShowScrollbar = showScrollbar && (!autoHide || isScrollbarVisible || isTrackHovered);
 
   return (
     <div
@@ -182,6 +233,9 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
         trackRef,
         thumbHeight: thumbHeight,
         showScrollbar: effectiveShowScrollbar,
+        onMouseEnter: handleTrackMouseEnter,
+        onMouseLeave: handleTrackMouseLeave,
+        onClick: handleTrackClick,
         children: renderThumb({ thumbHeight, thumbTop, handleThumbMouseDown, thumbRef }),
       })}
     </div>
