@@ -11,6 +11,8 @@ interface BaseScrollProps {
   style?: CSSProperties;
   renderThumb: RenderThumb;
   renderTrack: RenderTrack;
+  autoHide?: boolean;
+  autoHideDelay?: number;
 }
 
 const BaseScroll: React.FC<BaseScrollProps> = ({
@@ -22,6 +24,8 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   style,
   renderThumb,
   renderTrack,
+  autoHide = true,
+  autoHideDelay = 200,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
@@ -30,8 +34,26 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   const [thumbHeight, setThumbHeight] = useState('0px');
   const [thumbTop, setThumbTop] = useState('0px');
   const [isDragging, setIsDragging] = useState(false);
+  const [isScrollbarVisible, setIsScrollbarVisible] = useState(!autoHide);
   const startY = useRef(0);
   const startThumbTop = useRef(0);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showScrollbarTemporarily = useCallback(() => {
+    if (!autoHide) return;
+
+    setIsScrollbarVisible(true);
+
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+
+    hideTimeoutRef.current = setTimeout(() => {
+      if (!isDragging) {
+        setIsScrollbarVisible(false);
+      }
+    }, autoHideDelay);
+  }, [autoHide, autoHideDelay, isDragging]);
 
   const updateScrollbar = useCallback(() => {
     const content = contentRef.current;
@@ -45,13 +67,13 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
 
       if (scrollRatio < 1) {
         const newThumbHeight = visibleHeight * scrollRatio;
-        setThumbHeight(`${Math.max(newThumbHeight, 20)}px`); // Minimum thumb height
+        setThumbHeight(`${Math.max(newThumbHeight, 20)}px`);
         const scrollTop = content.scrollTop;
         const scrollTrackHeight = track.clientHeight;
         const newThumbTop = (scrollTop / (contentHeight - visibleHeight)) * (scrollTrackHeight - newThumbHeight);
         setThumbTop(`${newThumbTop}px`);
       } else {
-        setThumbHeight('0px'); // Hide thumb if no scroll needed
+        setThumbHeight('0px');
       }
     }
   }, []);
@@ -59,9 +81,10 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
       updateScrollbar();
+      showScrollbarTemporarily();
       onScroll?.(e);
     },
-    [onScroll, updateScrollbar]
+    [onScroll, updateScrollbar, showScrollbarTemporarily]
   );
 
   const handleThumbMouseDown = useCallback(
@@ -69,9 +92,13 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
       if (!contentRef.current || !thumbRef.current) return;
       e.preventDefault();
       setIsDragging(true);
+      setIsScrollbarVisible(true);
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
       startY.current = e.clientY;
       startThumbTop.current = parseFloat(thumbRef.current.style.transform.replace('translateY(', '').replace('px)', '')) || 0;
-      document.body.style.userSelect = 'none'; // Prevent text selection during drag
+      document.body.style.userSelect = 'none';
     },
     []
   );
@@ -104,7 +131,10 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     document.body.style.userSelect = '';
-  }, []);
+    if (autoHide) {
+      showScrollbarTemporarily();
+    }
+  }, [autoHide, showScrollbarTemporarily]);
 
   useEffect(() => {
     updateScrollbar();
@@ -121,12 +151,21 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
 
   useEffect(() => {
     if (contentRef.current) {
-      // Re-calculate scrollbar when content changes
       const observer = new MutationObserver(updateScrollbar);
       observer.observe(contentRef.current, { childList: true, subtree: true, attributes: true });
       return () => observer.disconnect();
     }
   }, [updateScrollbar]);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const effectiveShowScrollbar = showScrollbar && (!autoHide || isScrollbarVisible);
 
   return (
     <div
@@ -142,7 +181,7 @@ const BaseScroll: React.FC<BaseScrollProps> = ({
       {renderTrack({
         trackRef,
         thumbHeight: thumbHeight,
-        showScrollbar: showScrollbar,
+        showScrollbar: effectiveShowScrollbar,
         children: renderThumb({ thumbHeight, thumbTop, handleThumbMouseDown, thumbRef }),
       })}
     </div>
