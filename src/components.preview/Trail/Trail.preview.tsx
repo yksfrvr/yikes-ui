@@ -11,7 +11,7 @@ const TrailPreview = () => {
 
   return (
     <div className="p-4 h-full w-full">
-      <h2 className="text-2xl font-bold mb-8">Pointer trail</h2>
+      <h2 className="text-4xl font-normal mb-8">Pointer trail</h2>
       <div className="w-full flex justify-end items-center">
         <PaletteSelect defaultPalette={defaultPalette} onChange={setPalette} />
       </div>

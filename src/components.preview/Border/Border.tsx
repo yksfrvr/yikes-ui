@@ -13,7 +13,7 @@ const RainbowBorderPreview = () => {
 
   return (
     <div className="w-full h-full p-4">
-      <h2 className="text-2xl font-bold mb-8">Border</h2>
+      <h2 className="text-4xl font-normal mb-8">Border</h2>
       <div className="my-8">
         <ComponentDoc docs={[BORDER_USAGE_DOC[0]]} />
         <div className="bg-secondary p-6 rounded-md ml-4">
