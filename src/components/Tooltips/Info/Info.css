@@ -1,43 +1,99 @@
-.info-tooltip-icon {
+.info-tooltip-wrapper {
   display: inline-block;
   position: relative;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  background-color: white;
-  border-radius: 50%;
-  color: black;
-  cursor: pointer;
 }
 
-.info-tooltip-icon > span {
-  font-weight: bold;
+.info-tooltip-icon {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 0 0 50% 50%;
+  color: #1a1a1a;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  position: relative;
+  z-index: 4;
+  user-select: none;
+}
+
+.info-tooltip-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  box-shadow: 12px -12px 0 white;
+}
+
+.info-tooltip-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  box-shadow: -12px -12px 0 white;
 }
 
 .info-tooltip-popup {
   position: absolute;
-  z-index: 1;
-  width: 200px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: black;
-
-  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  display: none;
+  bottom: 100%;
+
+  background-color: #fff;
+  border-radius: 12px;
+  z-index: 2;
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  white-space: normal;
+
+  width: 220px;
+  max-height: 200px;
+  padding: 10px 14px;
 }
 
-.info-tooltip-popup::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: white transparent transparent transparent;
+/* .info-tooltip-wrapper:hover .info-tooltip-popup {
+  animation: box-expand 0.25s ease-out forwards 0.15s;
 }
+
+@keyframes box-expand {
+  from {
+    width: 24px;
+    max-height: 0;
+    padding: 0;
+  }
+  to {
+    width: 220px;
+    max-height: 200px;
+    padding: 10px 14px;
+  }
+} */
+
+/* Tooltip text */
+.info-tooltip-popup span {
+  /* opacity: 0; */
+  display: block;
+  font-size: 14px;
+  color: #2a2a2a;
+  white-space: normal;
+  text-align: center;
+}
+
+/* .info-tooltip-wrapper:hover .info-tooltip-popup span {
+  animation: fade-in 0.45s ease forwards 0.35s;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} */
