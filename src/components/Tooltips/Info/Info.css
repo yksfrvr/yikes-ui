@@ -9,7 +9,7 @@
   line-height: 24px;
   text-align: center;
   background-color: #fff;
-  border-radius: 0 0 50% 50%;
+  border-radius: 50%;
   color: #1a1a1a;
   cursor: pointer;
   font-weight: 700;
@@ -18,6 +18,30 @@
   z-index: 4;
   user-select: none;
 }
+
+/* .info-tooltip-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  box-shadow: 12px -12px 0 white;
+} */
+
+/* .info-tooltip-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  box-shadow: -12px -12px 0 white;
+} */
 
 .info-tooltip-icon::before {
   content: '';
@@ -34,14 +58,17 @@
 .info-tooltip-icon::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 100%;
+  top: -25%;
+  left: 82.5%;
   background-color: transparent;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  box-shadow: -12px -12px 0 white;
+  width: 12px;
+  height: 12px;
+  box-shadow: -8px 0px 0 white;
+
+  /* background-color: blue; */
 }
+
 
 .info-tooltip-popup {
   position: absolute;
@@ -57,40 +84,43 @@
   box-sizing: border-box;
   white-space: normal;
 
-  width: 220px;
-  max-height: 200px;
-  padding: 10px 14px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
 }
 
 /* .info-tooltip-wrapper:hover .info-tooltip-popup {
-  animation: box-expand 0.25s ease-out forwards 0.15s;
-}
+  animation: box-expand 2s ease-out forwards 0.15s;
+} */
 
-@keyframes box-expand {
+/* @keyframes box-expand {
   from {
     width: 24px;
-    max-height: 0;
+    height: 24px;
     padding: 0;
   }
+
   to {
     width: 220px;
-    max-height: 200px;
+    height: 40px;
     padding: 10px 14px;
   }
 } */
 
 /* Tooltip text */
-.info-tooltip-popup span {
-  /* opacity: 0; */
-  display: block;
-  font-size: 14px;
-  color: #2a2a2a;
-  white-space: normal;
-  text-align: center;
+.info-tooltip-popup {
+  span {
+    opacity: 0;
+    display: block;
+    font-size: 14px;
+    color: #2a2a2a;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* .info-tooltip-wrapper:hover .info-tooltip-popup span {
-  animation: fade-in 0.45s ease forwards 0.35s;
+  animation: fade-in 2.45s ease forwards 0.35s;
 }
 
 @keyframes fade-in {
