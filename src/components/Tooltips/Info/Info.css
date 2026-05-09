@@ -1,43 +1,156 @@
-.info-tooltip-icon {
+.info-tooltip-wrapper {
   display: inline-block;
   position: relative;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  background-color: white;
-  border-radius: 50%;
-  color: black;
-  cursor: pointer;
 }
 
-.info-tooltip-icon > span {
-  font-weight: bold;
+.info-tooltip-icon {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 50%;
+  color: #1a1a1a;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  position: relative;
+  z-index: 4;
+  user-select: none;
+}
+
+.info-tooltip-icon::before,
+.info-tooltip-icon::after {
+  content: '';
+  position: absolute;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 0px;
+  height: 0px;
+  top: -25%; /* center vertically */
+  box-shadow: 0px 0px 0 white;
+}
+
+.info-tooltip-icon::before {
+  right: 12px;
+}
+
+.info-tooltip-icon::after {
+  left: 12px;
 }
 
 .info-tooltip-popup {
   position: absolute;
-  z-index: 1;
-  width: 200px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: black;
-
-  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  display: none;
+  bottom: 100%;
+
+  background-color: #fff;
+  z-index: 2;
+  overflow: hidden;
+  box-sizing: border-box;
+  white-space: normal;
+  
+  border-radius: 12px;
+  width: 0px;
+  height: 0px;
+  padding: 0;
 }
 
-.info-tooltip-popup::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: white transparent transparent transparent;
+.info-tooltip-wrapper:hover {
+  .info-tooltip-popup {
+    animation: box-expand 0.5s linear forwards 0.1s;
+  }
+
+  .info-tooltip-icon::before {
+    animation: tooltip-expand-before 0.5s linear forwards 0.1s;
+  }
+
+  .info-tooltip-icon::after {
+    animation: tooltip-expand-after 0.5s linear forwards 0.1s;
+  }
+
+  .info-tooltip-icon {
+    animation: info-tooltip-expand 0.5s linear forwards 0.1s;
+  }
+}
+
+
+@keyframes tooltip-expand-after {
+  0% {
+    top: 0%;
+  }
+
+  20% {
+    top: -25%;
+    left: 82.5%;
+    width: 12px;
+    height: 12px;
+    box-shadow: -9px 0px 0 white;
+  }
+
+  40%, 100% {
+    top: 0;
+    left: 100%;
+    width: 24px;
+    height: 24px;
+    box-shadow: -12px -12px 0 white;
+  }
+}
+
+/* The LEFT bubble */
+@keyframes tooltip-expand-before {
+  0% {
+    top: 0%;
+  }
+
+  20% {
+    top: -25%;
+    right: 82.5%;
+    width: 12px;
+    height: 12px;
+    box-shadow: 9px 0px 0 white;
+  }
+
+  40%, 100% {
+    top: 0;
+    right: 100%;
+    width: 24px;
+    height: 24px;
+    box-shadow: 12px -12px 0 white;
+  }
+}
+
+@keyframes box-expand {
+  20% {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+  }
+
+  100% {
+    width: 220px;
+    height: 40px;
+    padding: 10px 14px;
+  }
+}
+
+/* Tooltip text */
+.info-tooltip-popup {
+  span {
+    opacity: 0;
+    display: block;
+    font-size: 14px;
+    color: #2a2a2a;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.info-tooltip-wrapper:hover .info-tooltip-popup span {
+  animation: fade-in 1s ease forwards 0.4s;
+}
+
+@keyframes fade-in {
+  to { opacity: 1; }
 }
