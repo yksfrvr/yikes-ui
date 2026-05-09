@@ -18,7 +18,7 @@ const AlertPreview = () => {
 
   return (
     <div className="w-full h-full p-4">
-      <h2 className="text-2xl font-bold mb-8">Alert</h2>
+      <h2 className="text-4xl font-normal mb-8">Rainbow Scroll Preview</h2>
       <div className="flex justify-around items-center my-8">
         <PaletteSelect
           defaultPalette={defaultShadowPalette}

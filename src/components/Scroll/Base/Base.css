@@ -1,0 +1,47 @@
+
+.scroll-container {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.scroll-container {
+  scrollbar-width: none;
+}
+
+.scroll-content {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.scroll-content::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.custom-scrollbar-track {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: var(--thumb-width);
+  background-color: transparent;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.custom-scrollbar-thumb {
+  position: absolute;
+  width: 100%;
+  border-radius: var(--thumb-radius);
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(0);
+}

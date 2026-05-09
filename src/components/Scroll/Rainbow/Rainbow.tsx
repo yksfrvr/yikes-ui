@@ -1,0 +1,71 @@
+import React, { CSSProperties } from 'react';
+import BaseScroll from '../Base/Base';
+import './Rainbow.css';
+import { RenderThumb, RenderTrack } from '../types';
+
+interface RainbowScrollProps {
+  children: React.ReactNode;
+  thumbWidth?: string;
+  thumbRadius?: string;
+  showScrollbar?: boolean;
+  onScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
+  className?: string;
+  style?: CSSProperties;
+}
+
+const RainbowScroll: React.FC<RainbowScrollProps> = ({
+  children,
+  thumbWidth = '8px',
+  thumbRadius = '4px',
+  showScrollbar = true,
+  onScroll,
+  className,
+  style,
+}) => {
+  const renderThumb: RenderThumb = ({ thumbHeight, thumbTop, handleThumbMouseDown, thumbRef }) => (
+    <div
+      ref={thumbRef}
+      className="custom-scrollbar-thumb"
+      style={{
+        height: thumbHeight,
+        transform: `translateY(${thumbTop})`,
+        background: 'linear-gradient(45deg, #fd9090cc, #fff962cc, #9bf993cc, #80daf5cc, #bb90facc)',
+      }}
+      onMouseDown={handleThumbMouseDown}
+    />
+  );
+
+  const renderTrack: RenderTrack = ({ trackRef, children: thumb, thumbHeight, showScrollbar, onMouseEnter, onMouseLeave, onClick }) => (
+    <div
+      ref={trackRef}
+      className="custom-scrollbar-track"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      style={{
+        opacity: showScrollbar && thumbHeight !== '0px' ? 1 : 0,
+      }}
+    >
+      {thumb}
+    </div>
+);
+
+  return (
+    <BaseScroll
+      thumbWidth={thumbWidth}
+      showScrollbar={showScrollbar}
+      onScroll={onScroll}
+      className={className}
+      style={{
+        ...style,
+        '--thumb-radius': thumbRadius,
+      } as CSSProperties}
+      renderThumb={renderThumb}
+      renderTrack={renderTrack}
+    >
+      {children}
+    </BaseScroll>
+  );
+};
+
+export default RainbowScroll;

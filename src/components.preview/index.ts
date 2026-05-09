@@ -8,6 +8,7 @@ export { default as BackgroundAuroraPreview } from "./BackgroundAurora";
 export { default as GradientSkeletonPreview } from "./GradientSkeleton";
 export { default as ImageHoverPreview } from "./ImageHover";
 export { default as ParticlesPreview } from "./Particles";
+export { default as ScrollPreview } from "./Scroll";
 export { default as SignalLinePreview } from "./SignalLine";
 export { default as TooltipPreview } from "./Tooltip";
 export { default as TrailPreview } from "./Trail";

@@ -23,7 +23,7 @@ const ButtonsPreview = () => {
 
   return (
     <div className="w-full h-full p-4">
-      <h2 className="text-2xl font-bold mb-8">Emoji buttons</h2>
+      <h2 className="text-4xl font-normal mb-8">Emoji buttons</h2>
       <div className="flex flex-col items-center my-8 relative">
         <p className="text-lg mb-4">Click to change an emoji</p>
         <button
